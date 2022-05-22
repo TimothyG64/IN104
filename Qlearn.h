@@ -18,9 +18,13 @@ int goal_row;
 int goal_col;
 
 
+envOutput Q_step(action a); 
+
+
 void alloc_RewardTab(void);
 
 void alloc_Q(void);
+
 
 void init_RewardTab(void);
 

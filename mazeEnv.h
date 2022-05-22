@@ -52,4 +52,11 @@ void maze_render();
 void maze_reset();
 
 envOutput maze_step(action a); 
+
+action env_action_sample();
+
+void alloc_visited();
+
+void init_visited();
+
 #endif /* MAZEENV_H */

@@ -3,8 +3,8 @@
 #include "mazeEnv.h"
 
 
+
 envOutput Q_step(action a){
-    //similaire à maze_step mais avec le tableau des récompenses
     int done = 0;
     envOutput stepOut;
 
@@ -22,13 +22,14 @@ envOutput Q_step(action a){
        done   = 1;
     }
 
-    stepOut.reward = RewardTab[state_row][state_col]; // <--ici
+    stepOut.reward = RewardTab[state_row][state_col];
     stepOut.done   = done;
     stepOut.new_col = state_col;
     stepOut.new_row = state_row; 
 
    return stepOut;
 }
+
 
 
 void alloc_Q(void)
@@ -38,6 +39,7 @@ void alloc_Q(void)
         for (i = 0; i < cols*rows; ++i){
                 Q[i] = malloc(number_actions * sizeof(float*));
         }
+
         int j;
         for (i = 0; i < cols*rows; ++i) {
                 for (j = 0; j < number_actions ; ++j) {
@@ -73,9 +75,9 @@ void init_RewardTab(void)
         for (i = 0; i < rows; ++i) {
                 for (j = 0; j < cols; ++j) {
                         if (maze[i][j] == '+') {
-                                RewardTab[i][j] = -100;   //c'est un mur
+                                RewardTab[i][j] = -1000;   //c'est un mur
                         } else if (maze[i][j] == 'g') {
-                                RewardTab[i][j] = 100;    //l'objectif
+                                RewardTab[i][j] = 100;   
                         } else {
                                 RewardTab[i][j] =-0.06 ;  //c'est juste un pas
                         }
@@ -86,8 +88,7 @@ void init_RewardTab(void)
 
 
 
-int trouve_max(int state, float ** Q) {
-    //regarde autour de lui pour aller à la récompense max
+int trouve_max (int state, float ** Q) {
     int reward_max =0;
     int i=1;
     while (i<4){
@@ -100,6 +101,7 @@ int trouve_max(int state, float ** Q) {
 }
 
 void chemin(){
+
     envOutput st;
     action at;
     init_state(&st);
@@ -187,6 +189,8 @@ void Qlearn(float gamma, float alpha){
             if (k>max_s){
                 printf("besoin de plus d'étape\n");
                 break;
+
+            //printf("%d, %d \n",);
             }
         }
         
