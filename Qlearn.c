@@ -1,88 +1,10 @@
 #include "Qlearn.h" 
 #include "functions.h"
-//#include "mazeEnv.h"
-
-// MAZZZZZZZZZZZZZZZZZZZE
-void alloc_maze(){
-     maze = malloc(rows * sizeof(char*));
-
-     for(int i=0; i<rows; i++) {
-         maze[i] = malloc(cols * sizeof(char*));
-     }
-}
-
-void maze_make(char* file_name){
-     char c;
-     char rows_s[3] ={'\0'};
-     char cols_s[3] ={'\0'};
-     int rows_i = 0;
-     int cols_i = 0;
-     int swap = 0;
-
-     FILE* file = fopen(file_name, "r");
-
-     if (file) {
-         /* lire la premiere ligne avant EOF */
-         while( (c=getc(file)) != EOF) {
-               if(c== '\n'){
-                      break;
-               } else if (c==',') {
-                      swap = 1;
-               } else if (!swap) {
-                      rows_s[rows_i]=c;
-                      rows_i++;
-               } else {
-                      cols_s[cols_i]= c;
-                      cols_i++;
-               }
-         }
-     }
-
-     /* convertir le string en nombre */
-     rows = atoi(rows_s);
-     cols = atoi(cols_s);
-
-     alloc_maze();
-
-     for (int i=0; i<rows; i++){
-         for (int j=0; j < cols; j++){
-             c = getc(file);
-
-             if (c=='\n'){
-                 c = getc(file);
-             } else if (c == 's'){
-               start_row = i;
-               start_col = j;
-             } else if ( c == 'g'){
-               goal_row = i;
-               goal_col = j;
-             }
-
-             maze[i][j] = c;
-         }
-     }
-
-     fclose(file);
-}
+#include "mazeEnv.h"
 
 
-void maze_render(){
-     for (int i=0; i<rows; i++) {
-         for (int j=0; j< cols; j++){
-             printf("%c ", maze[i][j]);
-         }
-         printf("\n");
-     }
-     printf("\n");
-}
-
-
-void maze_reset(){
-     state_row = start_row;
-     state_col = start_col;
-}
-
-envOutput maze_step(action a){
+envOutput Q_step(action a){
+    //similaire à maze_step mais avec le tableau des récompenses
     int done = 0;
     envOutput stepOut;
 
@@ -100,7 +22,7 @@ envOutput maze_step(action a){
        done   = 1;
     }
 
-    stepOut.reward = RewardTab[state_row][state_col];
+    stepOut.reward = RewardTab[state_row][state_col]; // <--ici
     stepOut.done   = done;
     stepOut.new_col = state_col;
     stepOut.new_row = state_row; 
@@ -108,15 +30,6 @@ envOutput maze_step(action a){
    return stepOut;
 }
 
-action env_action_sample(){
-  return (enum action)(rand() % number_actions);
-}
-
-
-
-
-
-// FIN  MAZZZZZZZZZZZZZZZZZE
 
 void alloc_Q(void)
 {       
@@ -195,7 +108,7 @@ void chemin(){
     int i=0; //indice de dépassement
     while(i<cols*rows && st.done!=1 ){
         at=Qpolicy(st,Q,0.0);
-        st = maze_step(at);
+        st = Q_step(at);
         maze[st.new_row][st.new_col]='.';
         i++;
     }
@@ -265,7 +178,7 @@ void Qlearn(float gamma, float alpha){
         while(st.done!=1 ){
             //
             at=Qpolicy(st,Q,epsi);
-            st1 = maze_step(at);
+            st1 = Q_step(at);
             at1 = Qpolicy(st1, Q, 0.0);
             Q[st.new_row*cols + st.new_col][at] += alpha*(st1.reward + gamma*Q[st1.new_row*cols + st1.new_col][at1] - Q[st.new_row*cols + st.new_col][at]);
             //
@@ -310,7 +223,7 @@ void SARSA(float gamma, float alpha){
         while(st.done!=1 ){
             //
             at=Qpolicy(st,Q,epsi);
-            st1 = maze_step(at);
+            st1 = Q_step(at);
             at1 = Qpolicy(st1, Q, 0.0);
             Q[st.new_row*cols + st.new_col][at] += alpha*(st1.reward + gamma*Q[st1.new_row*cols + st1.new_col][at1] - Q[st.new_row*cols + st.new_col][at]);
             //

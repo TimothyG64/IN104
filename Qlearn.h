@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-//#include "mazeEnv.h"
+#include "mazeEnv.h"
 
 char** maze;
 float **RewardTab;
@@ -18,35 +18,13 @@ int goal_row;
 int goal_col;
 
 // MAZZZZZZZZZZZZZZZZZZZE   ----- A supprimer
-enum action{
-     up,
-     down,
-     left,
-     right,
-     number_actions 
-};
+
  
-typedef enum action action ;
 
-struct envOutput{
-  int new_col;
-  int new_row;
-  int reward;
-  int done;
 
-};
 
-typedef struct envOutput envOutput;
 
-void alloc_maze();
 
-void maze_make(char* );
-
-void maze_render(); 
-
-void maze_reset();
-
-envOutput maze_step(action a); 
 
 // FIN MAZZZZZZZZZZZZZZZZZZZZZE
 

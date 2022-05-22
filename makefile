@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=Wall -Wfatal-errors
-SRC=Qlearn.c functions.c main.c 
-INC=functions.h Qlearn.h 
+SRC=Qlearn.c functions.c main.c mazeEnv.c
+INC=functions.h Qlearn.h mazeEnv.h
 OBJ=$(SRC:.c=.o)
 
 prog: $(OBJ)
