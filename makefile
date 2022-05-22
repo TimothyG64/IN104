@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=Wall -Wfatal-errors
-SRC=Qlearn.c functions.c dfs.c mazeEnv.c
+SRC=Qlearn.c functions.c main.c mazeEnv.c
 INC=functions.h Qlearn.h mazeEnv.h
 OBJ=$(SRC:.c=.o)
 

@@ -30,7 +30,16 @@ envOutput Q_step(action a){
    return stepOut;
 }
 
-
+void add_crumbs(){
+     for (int i=0; i<rows; i++){
+          for (int j=0; j<cols; j++){
+              if (visited[i][j] ==crumb){
+                  maze[i][j] ='.';
+              }
+          }
+     }
+     maze[start_row][start_col]= 's';
+}
 
 void alloc_Q(void)
 {       
@@ -121,8 +130,13 @@ void chemin(){
     else{
         printf("\n");
     }
+    maze_render();
 }
 
+void chemin2(){
+    add_crumbs();
+    maze_render();
+}
 action Qpolicy(envOutput st, float **Q, float epsi){
 
   action at;
@@ -168,6 +182,8 @@ void Qlearn(float gamma, float alpha){
     float epsi=0.1;
     int max_s=100000;
     int I_max=1000;
+    alloc_visited();
+    init_visited();
     alloc_Q();
     alloc_RewardTab();
     init_RewardTab();
@@ -186,6 +202,7 @@ void Qlearn(float gamma, float alpha){
             st=st1;
             //
             k++;
+            visited[st.new_row][st.new_col] = crumb;
             if (k>max_s){
                 printf("besoin de plus d'étape\n");
                 break;
@@ -196,9 +213,9 @@ void Qlearn(float gamma, float alpha){
         
         k=0;
     }
-
+    
     chemin();
-
+    free(Q);free(RewardTab);free(visited);
     
 }
 

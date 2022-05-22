@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include "mazeEnv.h"
 
-char** maze;
 float **RewardTab;
 float **Q;
 int rows;
