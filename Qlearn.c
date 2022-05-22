@@ -31,10 +31,13 @@ envOutput Q_step(action a){
 }
 
 void add_crumbs(){
+     int k =0;
      for (int i=0; i<rows; i++){
           for (int j=0; j<cols; j++){
               if (visited[i][j] ==crumb){
-                  maze[i][j] ='.';
+                  //maze[i][j] = k+'0';
+                  maze[i][j] = '.';
+                  k++;
               }
           }
      }
@@ -146,10 +149,34 @@ void chemin(){
     maze_render();
 }
 
+void cheminSARSA(){
+
+    envOutput st;
+    action at;
+    init_state(&st);
+    maze_reset();
+    int i=0; //indice de dépassement
+    while(i<cols*rows && st.done!=1 ){
+        at=SARSApolicy(st,Q,0.0);
+        st = Q_step(at);
+        maze[st.new_row][st.new_col]='.';
+        i++;
+    }
+    maze[goal_row][goal_col]='g';
+    maze[start_row][start_col]= 's';
+    if(st.done!=1){
+        printf(" pas assez d'étapes\n");
+    }
+    else{
+        printf("\n");
+    }
+    maze_render();
+}
+
 void chemin2(){
     envOutput s; action a;
-    s.new_row = start_row; s.new_col = start_col;
-
+    init_state(&s);
+    maze_reset();
     
     
     init_visited();
@@ -162,6 +189,8 @@ void chemin2(){
         i++;
     }
     add_crumbs();
+    maze[goal_row][goal_col]='g';
+    maze[start_row][start_col]= 's';
     maze_render();
 }
 action Qpolicy(envOutput st, float **Q, float epsi){
@@ -231,7 +260,7 @@ void Qlearn(float gamma, float alpha){
         k=0;
     }
     
-    chemin();
+    chemin2();
     free(Q);free(RewardTab);free(visited);
     
 }
@@ -275,17 +304,15 @@ void SARSA(float gamma, float alpha){
         maze_reset();
         
         while(st.done!=1 ){
-            //
-            at=Qpolicy(st,Q,epsi);
+            at=SARSApolicy(st,Q,epsi);
             st1 = Q_step(at);
-            at1 = Qpolicy(st1, Q, 0.0);
+            at1 = SARSApolicy(st1, Q, 0.0);
             Q[st.new_row*cols + st.new_col][at] += alpha*(st1.reward + gamma*Q[st1.new_row*cols + st1.new_col][at1] - Q[st.new_row*cols + st.new_col][at]);
             // si on n'arrive pas dans un mur
             if(maze[st1.new_row][st1.new_col]!='+'){
                 st=st1; //on avance
             }
             
-            //
             k++;
             if (k>max_s){
                 printf("besoin de plus d'étape\n");
@@ -296,7 +323,7 @@ void SARSA(float gamma, float alpha){
         k=0;
     }
 
-    chemin2();
+    cheminSARSA();
 
     
 }

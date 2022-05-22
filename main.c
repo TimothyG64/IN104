@@ -13,8 +13,8 @@ int main(){
    maze_render();
    
    //gamma , alpha
-   Qlearn(0.1, 0.9);
-   SARSA(0.1,0.9);
+   Qlearn(0.3, 0.8);
+   SARSA(0.3,0.8);
    return 0;
 }
 

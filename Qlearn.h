@@ -32,11 +32,19 @@ action trouve_max(int state, float ** Q);
 
 action Qpolicy(envOutput st, float **Q, float epsi);
 
+action SARSApolicy(envOutput st, float **Q, float epsi);
+
 void init_state(envOutput *stepOut);
 
 void chemin(void);
 
+void cheminSARSA(void);
+
+void chemin2(void);
+
 void Qlearn(float alpha, float gamma);
+
+void SARSA(float alpha, float gamma);
 
 int nb_random(void);
 
