@@ -6,9 +6,13 @@ OBJ=$(SRC:.c=.o)
 
 prog: $(OBJ)
 	$(CC) -o prog $(OBJ) 
+	make clean1  
 
 %.o: %.c
 	$(CC) -c -$(CFLAGS) $(SRC)
 
 clean:
-	rm -rf prog $(OBJ)
+	rm prog $(OBJ)
+
+clean1:
+	rm $(OBJ)
