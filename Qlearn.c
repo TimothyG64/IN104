@@ -323,7 +323,7 @@ void SARSA(float gamma, float alpha){
         k=0;
     }
 
-    cheminSARSA();
+    chemin();
 
     
 }

@@ -6,7 +6,7 @@
 
 
 int main(){
-   maze_make("maze.txt");
+   maze_make("maze3.txt");
    
    printf("%d, %d \n", rows, cols);
    printf("number of actions :  %d \n", number_actions); 
