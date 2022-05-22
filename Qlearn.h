@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "mazeEnv.h"
 
 float **RewardTab;
@@ -27,7 +28,7 @@ void alloc_Q(void);
 
 void init_RewardTab(void);
 
-int trouve_max(int state, float ** Q);
+action trouve_max(int state, float ** Q);
 
 action Qpolicy(envOutput st, float **Q, float epsi);
 

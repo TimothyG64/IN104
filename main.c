@@ -14,6 +14,7 @@ int main(){
    
    //gamma , alpha
    Qlearn(0.1, 0.9);
+   SARSA(0.1,0.9);
    return 0;
 }
 
