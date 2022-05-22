@@ -17,10 +17,21 @@ int state_col;
 int goal_row;
 int goal_col;
 
+// MAZZZZZZZZZZZZZZZZZZZE   ----- A supprimer
+
+ 
+
+
+
+
+
+
+// FIN MAZZZZZZZZZZZZZZZZZZZZZE
 
 void alloc_RewardTab(void);
 
 void alloc_Q(void);
+
 
 void init_RewardTab(void);
 
