@@ -10,7 +10,7 @@ We use Makefiles for our project to have a memorable way to install and run the 
 ## How it works?
 In termial command line, type down: <br>
 ### `make`
-### `./porg`
+### `./prog`
 
 ## Example
 Input file: <br>
@@ -37,7 +37,7 @@ Output:
 		+ . +   + + +   + +   + . + +   + +   +
 		+ . +       +         + . + +         +
 		+ . + + +   + + + + + + . + + + + + + +
-		+ . . . +           + + . + x + . . . +
+		+ . . s +           + + . + g + . . . +
 		+   + + + + + + +   + + . + . + . + . +
 		+   +               + + . + . . . + . +
 		+ + + + + + + + + + + + . + + + + + . +
