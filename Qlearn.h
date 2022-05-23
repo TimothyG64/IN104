@@ -13,7 +13,9 @@ float **Q;
 envOutput Q_step(action a); 
 
 
-void alloc_RewardTab(void);
+void alloc_RewardQ(void);
+
+void alloc_RewardSARSA(void);
 
 void alloc_Q(void);
 
@@ -22,17 +24,13 @@ void init_RewardTab(void);
 
 action trouve_max(int state, float ** Q);
 
-action Qpolicy(envOutput st, float **Q, float epsi);
+action Epolicy(envOutput st, float **Q, float epsi);
 
-action SARSApolicy(envOutput st, float **Q);
+action Boltzpolicy(envOutput st, float **Q);
 
 void init_state(envOutput *stepOut);
 
 void chemin(void);
-
-void cheminSARSA(void);
-
-void chemin2(void);
 
 void Qlearn(float alpha, float gamma);
 

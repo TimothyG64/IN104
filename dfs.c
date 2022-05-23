@@ -40,7 +40,7 @@ void add_crumbs(){
 }
 
 int main(){
-   maze_make("maze2.txt");
+   maze_make("maze.txt");
    init_visited();
 
    printf("%d, %d \n", rows, cols);
