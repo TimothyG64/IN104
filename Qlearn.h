@@ -8,14 +8,6 @@
 
 float **RewardTab;
 float **Q;
-int rows;
-int cols;
-int start_row;
-int start_col;
-int state_row;
-int state_col;
-int goal_row;
-int goal_col;
 
 
 envOutput Q_step(action a); 
@@ -32,7 +24,7 @@ action trouve_max(int state, float ** Q);
 
 action Qpolicy(envOutput st, float **Q, float epsi);
 
-action SARSApolicy(envOutput st, float **Q, float epsi);
+action SARSApolicy(envOutput st, float **Q);
 
 void init_state(envOutput *stepOut);
 

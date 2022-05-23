@@ -1,12 +1,12 @@
 #include "Qlearn.h"
-//#include "mazeEnv.h"
+#include "mazeEnv.h"
 #include <time.h>
 
 
 
 
 int main(){
-   maze_make("maze3.txt");
+   maze_make("maze.txt");
    
    printf("%d, %d \n", rows, cols);
    printf("number of actions :  %d \n", number_actions); 

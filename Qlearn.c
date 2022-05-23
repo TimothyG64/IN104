@@ -157,7 +157,7 @@ void cheminSARSA(){
     maze_reset();
     int i=0; //indice de dépassement
     while(i<cols*rows && st.done!=1 ){
-        at=SARSApolicy(st,Q,0.0);
+        at=SARSApolicy(st,Q);
         st = Q_step(at);
         maze[st.new_row][st.new_col]='.';
         i++;
@@ -265,14 +265,20 @@ void Qlearn(float gamma, float alpha){
     
 }
 
-action SARSApolicy(envOutput st, float **Q, float epsi){
-
+action SARSApolicy(envOutput st, float **Q){
+  printf("succes");
   action at;
+
   int state=st.new_row*cols + st.new_col;
+  printf("succes");
   // Botzmann exploration
   double p0 = exp(Q[state][0]);double p1 = exp(Q[state][1]);double p2 = exp(Q[state][2]);double p3 = exp(Q[state][3]);
-  double pt = p0+p1+p2+p3;
-  double x = rand() % (int) pt;
+  
+  double pt = p0+p1+p2+p3; 
+  if(pt==0){pt=4;p0=1;p1=1;p2=1;p3=1;}
+  int ipt = (int)pt;
+  printf("%c",ipt);
+  int x = rand() % ipt;
   if (x<p0)
   {
       at=up;
@@ -304,9 +310,9 @@ void SARSA(float gamma, float alpha){
         maze_reset();
         
         while(st.done!=1 ){
-            at=SARSApolicy(st,Q,epsi);
+            at=SARSApolicy(st,Q);
             st1 = Q_step(at);
-            at1 = SARSApolicy(st1, Q, 0.0);
+            at1 = SARSApolicy(st1, Q);
             Q[st.new_row*cols + st.new_col][at] += alpha*(st1.reward + gamma*Q[st1.new_row*cols + st1.new_col][at1] - Q[st.new_row*cols + st.new_col][at]);
             // si on n'arrive pas dans un mur
             if(maze[st1.new_row][st1.new_col]!='+'){
@@ -323,7 +329,7 @@ void SARSA(float gamma, float alpha){
         k=0;
     }
 
-    chemin();
+    cheminSARSA();
 
     
 }
