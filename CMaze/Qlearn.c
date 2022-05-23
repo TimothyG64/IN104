@@ -142,8 +142,6 @@ void chemin(){
     envOutput s; action a;
     init_state(&s);
     maze_reset();
-    
-    
     init_visited();
     int i=0; //indice de dépassement
     while(i<cols*rows && s.done!=1 ){
@@ -151,7 +149,6 @@ void chemin(){
         a = trouve_max(state, Q);
         s = maze_step(a);
         visited[s.new_row][s.new_col] = crumb;
-        //printf("%d %d \n",s.new_row,s.new_col);
         i++;
     }
     if(s.done!=1){
@@ -166,15 +163,11 @@ void chemin(){
 
 
 action Epolicy(envOutput st, float **Q, float epsi){ // méthode epsi-Greedy
-
   action at;
   int state=st.new_row*cols + st.new_col;
   if( ((rand() % 100)/100) < epsi )  
     return (enum action)(rand() % number_actions);
-
-
   at =trouve_max(state,Q);
- 
   return at;
 }
 
@@ -182,28 +175,20 @@ action Epolicy(envOutput st, float **Q, float epsi){ // méthode epsi-Greedy
 
 action Boltzpolicy(envOutput st, float **Q){
   action at;
-
   int state=st.new_row*cols + st.new_col;
-  // Botzmann exploration
   double p0 = exp(Q[state][0]);double p1 = exp(Q[state][1]);double p2 = exp(Q[state][2]);double p3 = exp(Q[state][3]);
-  
   double pt = p0+p1+p2+p3; 
   double x = (rand() % 1001 +1)/1000;
   x = x*(int)pt;
-  //printf("%f %f \n", x, pt);
   if (x<p0)
   {
       at=up;
-      //printf("up \n");
   }else if(x<p1+p0){
       at=down;
-      //printf("down \n");
   }else if(x<p2+p1+p0){
       at=left;
-      //printf("left \n");
   }else{
       at=right;
-      //printf("right \n");
   }
   return at;
 }
@@ -211,10 +196,8 @@ action Boltzpolicy(envOutput st, float **Q){
 
 
 void Qlearn(float gamma, float alpha){
-
     envOutput st1, st;  
     action mat,at;
-    
     int k=0;
     float epsi=0.1;
     int max_s=1000000;
@@ -224,33 +207,24 @@ void Qlearn(float gamma, float alpha){
     alloc_Q();
     alloc_RewardTab();
     init_RewardQ();
-    
     for(int i=0;i<I_max;i++){
         init_state(&st);
         maze_reset();
-        
         while(st.done!=1 ){
-            //
             at=Epolicy(st,Q,epsi);
             st1 = Q_step(at);
             mat = Epolicy(st1, Q, 0.0); //max at
             int state = st.new_row*cols + st.new_col; int state1 = st1.new_row*cols + st1.new_col;
             Q[state][at] += alpha*(st1.reward + gamma*Q[state1][mat] - Q[state][at]);
-            //
             st=st1;
-            //
             k++;
             if (k>max_s){
                 printf("besoin de plus d'étape\n");
                 break;
-
-            //printf("%d, %d \n",);
             }
-        }
-        
+        }   
         k=0;
     }
-    
     chemin();
     free(Q);free(RewardTab);free(visited);
     
@@ -259,22 +233,18 @@ void Qlearn(float gamma, float alpha){
 
 
 void SARSA(float gamma, float alpha){
-
     envOutput st1, st;  
     action at1,at;
-    
     int k=0;
     int max_s=10000;
     int I_max=1000;
     alloc_Q();
     alloc_RewardTab();
     init_RewardSARSA();
-    
     for(int i=0;i<I_max;i++){
         init_state(&st);
         at=Epolicy(st,Q,0.0); //max a
         maze_reset();
-        
         while(st.done!=1 ){
             st1 = Q_step(at);
             at1 = Epolicy(st1, Q,0.0);
@@ -285,14 +255,12 @@ void SARSA(float gamma, float alpha){
                 st=st1; //on avance
                 at =at1;
             }
-            
             k++;
             if (k>max_s){
                 //printf("besoin de plus d'étape\n");
                 break;
             }
         }
-        
         k=0;
     }
     
