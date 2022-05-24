@@ -178,7 +178,7 @@ action Boltzpolicy(envOutput st, float **Q){
   int state=st.new_row*cols + st.new_col;
   double p0 = exp(Q[state][0]);double p1 = exp(Q[state][1]);double p2 = exp(Q[state][2]);double p3 = exp(Q[state][3]);
   double pt = p0+p1+p2+p3; 
-  double x = (rand() % 1001 +1)/1000;
+  double x = (rand() % 1001)/1000;
   x = x*(int)pt;
   if (x<p0)
   {

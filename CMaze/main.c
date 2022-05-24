@@ -7,7 +7,7 @@
 
 int main(){
    int choix;
-   maze_make("maze2.txt");
+   maze_make("maze3.txt");
    
    printf("%d, %d \n", rows, cols);
    printf("number of actions :  %d \n", number_actions); 
@@ -21,7 +21,7 @@ int main(){
    if (choix == 1)
    {
       start = clock();
-      Qlearn(0.3, 0.8);
+      Qlearn(0.8, 0.8);
       end= clock();
       cpu_time = ((double) (end - start)) / CLOCKS_PER_SEC;
       printf("Chrono Qlearning : %f \n", cpu_time );
@@ -33,7 +33,7 @@ int main(){
       printf("Chrono SARSA : %f \n", cpu_time);
    }else {
       start = clock();
-      Qlearn(0.3,0.8);
+      Qlearn(0.8,0.8);
       end= clock();
       cpu_time = ((double) (end - start)) / CLOCKS_PER_SEC;
       SARSA(0.8,0.8);
